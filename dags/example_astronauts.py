@@ -39,7 +39,7 @@ table_name = 'cars'
     schedule="@daily",
     catchup=False,
     doc_md=__doc__,
-    default_args={"owner": "Astro", "retries": 3},
+    default_args={"owner": "Astro", "retries": 0},
     tags=["example"],
 )
 def example_astronauts():
@@ -79,7 +79,7 @@ def example_astronauts():
     @task(task_id='postgres_insert')
     def test_postgres_connection():
         hook = PostgresHook(postgres_conn_id=connection_id)
-        hook.run(f"INSERT INTO table_name  (brand,model, year) VALUES  ('manish','fff',123;")
+        hook.run(f"INSERT INTO manish_weather.cars  (brand,model, year) VALUES  ('manish','fff',123;")
 
     #Use dynamic task mapping to run the print_astronaut_craft task for each 
     #Astronaut in space
