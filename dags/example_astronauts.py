@@ -24,6 +24,13 @@ from airflow import Dataset
 from airflow.decorators import dag, task
 from pendulum import datetime
 import requests
+from airflow.providers.postgres.operators.postgres import PostgresOperator
+from airflow.utils.dates import days_ago
+from airflow import DAG
+
+connection_id = 'aws_trainee_rds_manish'
+table_name = 'cars'  
+
 
 #Define the basic parameters of the DAG, like schedule and start_date
 @dag(
@@ -42,7 +49,7 @@ def example_astronauts():
     )  # Define that this task updates the `current_astronauts` Dataset
     def get_astronauts(**context) -> list[dict]:
         """
-        This task uses the requests library to retrieve a list of Astronauts 
+        This task uses the  library to retrieve a list of Astronauts 
         currently in space. The results are pushed to XCom with a specific key
         so they can be used in a downstream pipeline. The task returns a list
         of Astronauts to be used in the next task.
@@ -66,14 +73,18 @@ def example_astronauts():
         """
         craft = person_in_space["craft"]
         name = person_in_space["name"]
-
         print(f"{name} is currently in space flying on the {craft}! {greeting}")
+
+    @task(task_id='postgres_insert')
+    def test_postgres_connection():
+        hook = PostgresHook(postgres_conn_id=connection_id)
+        hook.run(f"INSERT INTO table_name  (brand,model, year) VALUES  ('manish','fff',123;")
 
     #Use dynamic task mapping to run the print_astronaut_craft task for each 
     #Astronaut in space
-    print_astronaut_craft.partial(greeting="Hello! :)").expand(
-        person_in_space=get_astronauts() #Define dependencies using TaskFlow API syntax
-    )
+    test_postgres_connection() >> get_astronauts() >> print_astronaut_craft.partial(greeting="Hello! "
+     ).expand(person_in_space=get_astronauts()) 
 
-#Instantiate the DAG
-example_astronauts()
+
+dag = example_astronauts()  # Instantiate the existing DAG
+
