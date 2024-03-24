@@ -76,7 +76,7 @@ def example_astronauts():
         name = person_in_space["name"]
         print(f"{name} is currently in space flying on the {craft}! {greeting}")
 
-    @task(task_id='postgres_insert')
+    @task(task_id='postgres_insert_1')
     def test_postgres_connection():
         hook = PostgresHook(postgres_conn_id=connection_id)
         insert_st = """INSERT INTO manish_weather.cars  (brand,model, year) VALUES  ('manish','fff',123)"""
