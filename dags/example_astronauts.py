@@ -83,7 +83,7 @@ def example_astronauts():
 
     #Use dynamic task mapping to run the print_astronaut_craft task for each 
     #Astronaut in space
-    test_postgres_connection() >> get_astronauts() >> print_astronaut_craft.partial(greeting="Hello! "
+    test_postgres_connection() >> print_astronaut_craft.partial(greeting="Hello! "
      ).expand(person_in_space=get_astronauts()) 
 
 
