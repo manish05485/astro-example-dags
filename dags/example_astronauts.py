@@ -79,7 +79,8 @@ def example_astronauts():
     @task(task_id='postgres_insert')
     def test_postgres_connection():
         hook = PostgresHook(postgres_conn_id=connection_id)
-        hook.run(f"INSERT INTO manish_weather.cars  (brand,model, year) VALUES  ('manish','fff',123;")
+        insert_st = """INSERT INTO manish_weather.cars  (brand,model, year) VALUES  ('manish','fff',123)"""
+        hook.run(insert_st)
 
     #Use dynamic task mapping to run the print_astronaut_craft task for each 
     #Astronaut in space
